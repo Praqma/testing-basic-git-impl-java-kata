@@ -30,7 +30,7 @@ interface Command {
             File[] files = fileSystem.listFiles(".");
             ByteArrayBuilder tree = new ByteArrayBuilder();
             for (File file : files) {
-                Hash hash = FileSystem.storeInTree(file, "blob");
+                Hash hash = fileSystem.storeInTree(file, "blob");
                 tree.append(("100644 " + file.getName() + "\0").getBytes());
                 tree.append(hash.asBytes);
             }

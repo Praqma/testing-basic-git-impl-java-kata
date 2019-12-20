@@ -83,7 +83,7 @@ class FileSystem {
         return hashed;
     }
 
-    public static Hash storeInTree(File file, String type) {
+    public Hash storeInTree(File file, String type) {
         byte[] content = readBytes(file);
         return storeInTree(content, type);
     }
