@@ -26,13 +26,6 @@ interface Command {
         return bout.toByteArray();
     }
 
-    static String getFilePath(String hash) {
-        String folder = hash.substring(0, 2);
-        String filename = hash.substring(2);
-        FileSystem.createPath(".git/objects/" + folder);
-        return ".git/objects/" + folder + "/" + filename;
-    }
-
     static Hash storeInTree(File file, String type) {
         byte[] content = FileSystem.readBytes(file);
         return storeInTree(content, type);
@@ -41,7 +34,7 @@ interface Command {
     static Hash storeInTree(byte[] content, String type) {
         byte[] bytes = withHeader(content, type);
         Hash hashed = new Hash(bytes);
-        FileSystem.writeFile(getFilePath(hashed.asString), compress(bytes));
+        FileSystem.writeFile(FileSystem.getFilePath(hashed.asString), compress(bytes));
         System.out.println("Created " + type + " " + hashed.asString);
         return hashed;
     }

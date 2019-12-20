@@ -43,4 +43,11 @@ class FileSystem {
             throw new RuntimeException();
         }
     }
+
+    public static String getFilePath(String hash) {
+        String folder = hash.substring(0, 2);
+        String filename = hash.substring(2);
+        createPath(".git/objects/" + folder);
+        return ".git/objects/" + folder + "/" + filename;
+    }
 }
