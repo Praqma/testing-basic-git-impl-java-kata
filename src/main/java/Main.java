@@ -44,10 +44,6 @@ public class Main {
         return hashed;
     }
 
-    interface Command {
-        void execute();
-    }
-
     static class Init implements Command {
         public void execute() {
             // Exercise: Error if we are already inside a git repository
