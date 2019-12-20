@@ -1,42 +1,10 @@
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.zip.DeflaterOutputStream;
 
 interface Command {
-    static byte[] compress(byte[] content) {
-        try {
-            ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            OutputStream out = new DeflaterOutputStream(bout);
-            out.write(content, 0, content.length);
-            out.close();
-            return bout.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-            throw new RuntimeException();
-        }
-    }
-
-    static byte[] withHeader(byte[] content, String type) {
-        ByteArrayBuilder bout = new ByteArrayBuilder();
-        bout.append((type + " " + content.length + "\0").getBytes());
-        bout.append(content);
-        return bout.toByteArray();
-    }
 
     static Hash storeInTree(File file, String type) {
         byte[] content = FileSystem.readBytes(file);
-        return storeInTree(content, type);
-    }
-
-    static Hash storeInTree(byte[] content, String type) {
-        byte[] bytes = withHeader(content, type);
-        Hash hashed = new Hash(bytes);
-        FileSystem.writeFile(FileSystem.getFilePath(hashed.asString), compress(bytes));
-        System.out.println("Created " + type + " " + hashed.asString);
-        return hashed;
+        return FileSystem.storeInTree(content, type);
     }
 
     void execute();
@@ -65,7 +33,7 @@ interface Command {
                 tree.append(("100644 " + file.getName() + "\0").getBytes());
                 tree.append(hash.asBytes);
             }
-            Hash treeHash = Command.storeInTree(tree.toByteArray(), "tree");
+            Hash treeHash = FileSystem.storeInTree(tree.toByteArray(), "tree");
             // Exercise: Add parent commit
             // Exercise: Add correct timestamp
             // Exercise: Add commit message
@@ -73,7 +41,7 @@ interface Command {
             byte[] commit = ("tree " + treeHash.asString + "\n" +
                     "author CCL <ccl@praqma.net> 1\n" +
                     "committer CCL <ccl@praqma.net> 1").getBytes();
-            Hash commitHash = Command.storeInTree(commit, "commit");
+            Hash commitHash = FileSystem.storeInTree(commit, "commit");
             FileSystem.writeFile(".git/refs/heads/master", commitHash.asString);
         }
     }

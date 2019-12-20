@@ -1,7 +1,10 @@
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.zip.DeflaterOutputStream;
 
 class FileSystem {
     static void createPath(String path) {
@@ -49,5 +52,34 @@ class FileSystem {
         String filename = hash.substring(2);
         createPath(".git/objects/" + folder);
         return ".git/objects/" + folder + "/" + filename;
+    }
+
+    public static byte[] compress(byte[] content) {
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            OutputStream out = new DeflaterOutputStream(bout);
+            out.write(content, 0, content.length);
+            out.close();
+            return bout.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+            throw new RuntimeException();
+        }
+    }
+
+    public static byte[] withHeader(byte[] content, String type) {
+        ByteArrayBuilder bout = new ByteArrayBuilder();
+        bout.append((type + " " + content.length + "\0").getBytes());
+        bout.append(content);
+        return bout.toByteArray();
+    }
+
+    public static Hash storeInTree(byte[] content, String type) {
+        byte[] bytes = withHeader(content, type);
+        Hash hashed = new Hash(bytes);
+        writeFile(getFilePath(hashed.asString), compress(bytes));
+        System.out.println("Created " + type + " " + hashed.asString);
+        return hashed;
     }
 }
