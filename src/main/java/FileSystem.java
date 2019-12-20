@@ -82,4 +82,9 @@ class FileSystem {
         System.out.println("Created " + type + " " + hashed.asString);
         return hashed;
     }
+
+    public static Hash storeInTree(File file, String type) {
+        byte[] content = readBytes(file);
+        return storeInTree(content, type);
+    }
 }
