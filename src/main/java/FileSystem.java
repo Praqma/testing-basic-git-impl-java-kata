@@ -47,7 +47,7 @@ class FileSystem {
         }
     }
 
-    public static String getFilePath(String hash) {
+    public String getFilePath(String hash) {
         String folder = hash.substring(0, 2);
         String filename = hash.substring(2);
         createPath(".git/objects/" + folder);
