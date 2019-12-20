@@ -32,14 +32,14 @@ interface Command {
         }
 
         public void execute() {
-            File[] files = FileSystem.listFiles(".");
+            File[] files = fileSystem.listFiles(".");
             ByteArrayBuilder tree = new ByteArrayBuilder();
             for (File file : files) {
                 Hash hash = Command.storeInTree(file, "blob");
                 tree.append(("100644 " + file.getName() + "\0").getBytes());
                 tree.append(hash.asBytes);
             }
-            Hash treeHash = FileSystem.storeInTree(tree.toByteArray(), "tree");
+            Hash treeHash = fileSystem.storeInTree(tree.toByteArray(), "tree");
             // Exercise: Add parent commit
             // Exercise: Add correct timestamp
             // Exercise: Add commit message
@@ -47,8 +47,8 @@ interface Command {
             byte[] commit = ("tree " + treeHash.asString + "\n" +
                     "author CCL <ccl@praqma.net> 1\n" +
                     "committer CCL <ccl@praqma.net> 1").getBytes();
-            Hash commitHash = FileSystem.storeInTree(commit, "commit");
-            FileSystem.writeFile(".git/refs/heads/master", commitHash.asString);
+            Hash commitHash = fileSystem.storeInTree(commit, "commit");
+            fileSystem.writeFile(".git/refs/heads/master", commitHash.asString);
         }
     }
 
