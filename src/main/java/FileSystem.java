@@ -27,7 +27,7 @@ class FileSystem {
         }
     }
 
-    static void writeFile(String path, String content) {
+    void writeFile(String path, String content) {
         try {
             Files.write(Paths.get(path), content.getBytes());
         } catch (IOException e) {
