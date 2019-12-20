@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.zip.InflaterOutputStream;
@@ -73,13 +74,16 @@ class SystemTests {
 
     @Test
     void init_complete() throws IOException {
-        new Command.Init(new FileSystem(Paths.get("."))).execute();
-        assertTrue(new File(".git").isDirectory(), ".git folder does not exist");
-        assertTrue(new File(".git/objects").isDirectory(), "objects folder does not exist");
-        assertTrue(new File(".git/refs").isDirectory(), "refs folder does not exist");
-        assertTrue(new File(".git/refs/heads").isDirectory(), "ref/heads folder does not exist");
-        assertTrue(new File(".git/HEAD").isFile(), "HEAD file does not exist");
-        assertEquals("ref: refs/heads/master", Utils.readFile(".git/HEAD"), "HEAD file is incorrect");
+        final Path tempDirectory = Files.createTempDirectory("test-java-git");
+        System.out.println(tempDirectory);
+        new Command.Init(new FileSystem(tempDirectory)).execute();
+        assertTrue(tempDirectory.resolve(".git").toFile().isDirectory(), ".git folder does not exist");
+        assertTrue(tempDirectory.resolve(".git/objects").toFile().isDirectory(), "objects folder does not exist");
+        assertTrue(tempDirectory.resolve(".git/refs").toFile().isDirectory(), "refs folder does not exist");
+        assertTrue(tempDirectory.resolve(".git/refs/heads").toFile().isDirectory(), "ref/heads folder does not exist");
+        assertTrue(tempDirectory.resolve(".git/HEAD").toFile().isFile(), "HEAD file does not exist");
+        assertEquals("ref: refs/heads/master", Utils.readFile(tempDirectory.resolve(".git/HEAD").toString()), "HEAD file is incorrect");
+        tempDirectory.toFile().delete();
     }
 
     byte[] checkObject(String hash, String type) throws IOException {
@@ -94,6 +98,7 @@ class SystemTests {
 
     @Test
     void commit_complete() throws IOException {
+        Main.main(new String[]{"init"});
         Main.main(new String[]{"commit"});
         assertTrue(new File(".git/refs/heads/master").isFile(), "refs/heads/master file does not exist");
         String commitHash = Utils.readFile(".git/refs/heads/master");

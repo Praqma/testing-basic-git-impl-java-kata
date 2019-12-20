@@ -36,7 +36,8 @@ class FileSystem {
 
     void writeFile(String path, String content) {
         try {
-            Files.write(root.resolve(path), content.getBytes());
+            final Path resolvedPath = root.resolve(path);
+            Files.write(resolvedPath, content.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
