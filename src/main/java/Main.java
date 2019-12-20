@@ -1,9 +1,11 @@
+import java.nio.file.Paths;
+
 public class Main {
 
     private static Command parseCommand(String[] args) {
         if (args.length == 0) return new Command.NullCommand();
-        else if ("init".equals((args[0]))) return new Command.Init(new FileSystem());
-        else if ("commit".equals((args[0]))) return new Command.Commit(new FileSystem());
+        else if ("init".equals((args[0]))) return new Command.Init(new FileSystem(Paths.get(".")));
+        else if ("commit".equals((args[0]))) return new Command.Commit(new FileSystem(Paths.get(".")));
             // Exercise: Implement "help"
             // Exercise: Implement "log"
             // Exercise: Implement "hash-object"

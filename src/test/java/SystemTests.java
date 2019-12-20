@@ -73,7 +73,7 @@ class SystemTests {
 
     @Test
     void init_complete() throws IOException {
-        new Command.Init(new FileSystem()).execute();
+        new Command.Init(new FileSystem(Paths.get("."))).execute();
         assertTrue(new File(".git").isDirectory(), ".git folder does not exist");
         assertTrue(new File(".git/objects").isDirectory(), "objects folder does not exist");
         assertTrue(new File(".git/refs").isDirectory(), "refs folder does not exist");

@@ -3,11 +3,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.zip.DeflaterOutputStream;
 
 class FileSystem {
-    public FileSystem() {
+    private final Path root;
+
+    public FileSystem(Path root) {
+        this.root = root;
     }
 
     void createPath(String path) {
