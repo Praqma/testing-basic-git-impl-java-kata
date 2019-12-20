@@ -59,7 +59,7 @@ interface Command {
 
     class Commit implements Command {
         public void execute() {
-            File[] files = FileSystem.listFiles("");
+            File[] files = FileSystem.listFiles(".");
             ByteArrayBuilder tree = new ByteArrayBuilder();
             for (File file : files) {
                 Hash hash = Command.storeInTree(file, "blob");
