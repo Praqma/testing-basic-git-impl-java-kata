@@ -3,7 +3,7 @@ public class Main {
     private static Command parseCommand(String[] args) {
         if (args.length == 0) return new Command.NullCommand();
         else if ("init".equals((args[0]))) return new Command.Init(new FileSystem());
-        else if ("commit".equals((args[0]))) return new Command.Commit();
+        else if ("commit".equals((args[0]))) return new Command.Commit(new FileSystem());
             // Exercise: Implement "help"
             // Exercise: Implement "log"
             // Exercise: Implement "hash-object"

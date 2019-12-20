@@ -25,7 +25,10 @@ interface Command {
     }
 
     class Commit implements Command {
-        public Commit() {
+        private final FileSystem fileSystem;
+
+        public Commit(FileSystem fileSystem) {
+            this.fileSystem = fileSystem;
         }
 
         public void execute() {
