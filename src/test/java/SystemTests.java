@@ -107,7 +107,7 @@ class SystemTests {
             String mode = new String(Arrays.copyOfRange(treeContent, pos, spaceIndex));
             int nullIndex = Utils.indexOf(treeContent, (byte) 0, spaceIndex);
             String filename = new String(Arrays.copyOfRange(treeContent, spaceIndex + 1, nullIndex));
-            String hash = Main.Hash.toHexString(Arrays.copyOfRange(treeContent, nullIndex + 1, nullIndex + 1 + 20));
+            String hash = Hash.toHexString(Arrays.copyOfRange(treeContent, nullIndex + 1, nullIndex + 1 + 20));
             assertEquals("100644", mode, "not a blob");
             String blobContent = new String(checkObject(hash, "blob"));
             assertEquals(Utils.readFile(filename), blobContent, "file content does not match");
