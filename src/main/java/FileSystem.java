@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.zip.DeflaterOutputStream;
 
 class FileSystem {
-    static void createPath(String path) {
+    void createPath(String path) {
         new File(path).mkdirs();
     }
 
