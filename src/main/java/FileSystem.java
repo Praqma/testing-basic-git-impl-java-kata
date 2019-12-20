@@ -75,7 +75,7 @@ class FileSystem {
         return bout.toByteArray();
     }
 
-    public static Hash storeInTree(byte[] content, String type) {
+    public Hash storeInTree(byte[] content, String type) {
         byte[] bytes = withHeader(content, type);
         Hash hashed = new Hash(bytes);
         writeFile(getFilePath(hashed.asString), compress(bytes));
