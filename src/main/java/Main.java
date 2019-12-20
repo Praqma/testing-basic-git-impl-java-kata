@@ -1,6 +1,4 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
@@ -8,48 +6,6 @@ import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 
 public class Main {
-
-    static class FileSystem {
-        static void createPath(String path) {
-            new File(path).mkdirs();
-        }
-
-        static File[] listFiles(String path) {
-            // Exercise: Add support .gitignore
-            // Exercise: Add support for folders
-            return new File(path).listFiles(File::isFile);
-        }
-
-        static byte[] readBytes(File path) {
-            try {
-                return Files.readAllBytes(path.toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-                throw new RuntimeException();
-            }
-        }
-
-        static void writeFile(String path, String content) {
-            try {
-                Files.write(Paths.get(path), content.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-                throw new RuntimeException();
-            }
-        }
-
-        static void writeFile(String path, byte[] content) {
-            try {
-                Files.write(Paths.get(path), content);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-                throw new RuntimeException();
-            }
-        }
-    }
 
     static class ByteArrayBuilder {
         private List<byte[]> buffer;
