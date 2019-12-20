@@ -25,6 +25,9 @@ interface Command {
     }
 
     class Commit implements Command {
+        public Commit() {
+        }
+
         public void execute() {
             File[] files = FileSystem.listFiles(".");
             ByteArrayBuilder tree = new ByteArrayBuilder();
