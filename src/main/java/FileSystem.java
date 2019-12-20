@@ -15,7 +15,7 @@ class FileSystem {
     }
 
     void createPath(String path) {
-        new File(path).mkdirs();
+        root.resolve(path).toFile().mkdirs();
     }
 
     static File[] listFiles(String path) {
