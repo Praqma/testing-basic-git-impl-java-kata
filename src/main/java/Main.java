@@ -2,7 +2,7 @@ public class Main {
 
     private static Command parseCommand(String[] args) {
         if (args.length == 0) return new Command.NullCommand();
-        else if ("init".equals((args[0]))) return new Command.Init();
+        else if ("init".equals((args[0]))) return new Command.Init(new FileSystem());
         else if ("commit".equals((args[0]))) return new Command.Commit();
             // Exercise: Implement "help"
             // Exercise: Implement "log"

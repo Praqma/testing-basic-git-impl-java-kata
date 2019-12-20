@@ -49,7 +49,10 @@ interface Command {
     void execute();
 
     class Init implements Command {
-        public Init() {
+        private final FileSystem fileSystem;
+
+        public Init(FileSystem fileSystem) {
+            this.fileSystem = fileSystem;
         }
 
         public void execute() {
