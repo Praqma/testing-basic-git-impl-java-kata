@@ -49,6 +49,9 @@ interface Command {
     void execute();
 
     class Init implements Command {
+        public Init() {
+        }
+
         public void execute() {
             // Exercise: Error if we are already inside a git repository
             FileSystem.createPath(".git/objects");
