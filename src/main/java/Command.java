@@ -57,9 +57,9 @@ interface Command {
 
         public void execute() {
             // Exercise: Error if we are already inside a git repository
-            FileSystem.createPath(".git/objects");
-            FileSystem.createPath(".git/refs/heads");
-            FileSystem.writeFile(".git/HEAD", "ref: refs/heads/master");
+            fileSystem.createPath(".git/objects");
+            fileSystem.createPath(".git/refs/heads");
+            fileSystem.writeFile(".git/HEAD", "ref: refs/heads/master");
         }
     }
 
